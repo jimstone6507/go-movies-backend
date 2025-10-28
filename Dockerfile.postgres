@@ -1,0 +1,10 @@
+# Use official PostgreSQL image
+FROM postgres:16
+
+# Copy initialization SQL script into the container
+# This runs automatically on first start
+COPY ./sql/create_tables.sql /docker-entrypoint-initdb.d/create_tables.sql
+
+# Fix permissions (sometimes needed on macOS)
+RUN chmod 755 /docker-entrypoint-initdb.d && \
+    chmod 644 /docker-entrypoint-initdb.d/*.sql
